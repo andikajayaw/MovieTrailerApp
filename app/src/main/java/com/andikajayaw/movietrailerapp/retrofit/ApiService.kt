@@ -3,7 +3,7 @@ package com.andikajayaw.movietrailerapp.retrofit
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val BASE_URL = ""
+const val BASE_URL = "https://api.themoviedb.org/3/movie/"
 
 class ApiService {
     val endpoint: ApiEndPoint
