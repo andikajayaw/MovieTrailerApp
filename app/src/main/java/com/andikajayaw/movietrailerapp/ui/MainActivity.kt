@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         getMovie()
     }
 
-    fun getMovie() {
+    private fun getMovie() {
         ApiService().endpoint.getMovieNowPlaying(Constant.API_KEY,1)
             .enqueue(object : Callback<MovieResponse>{
                 override fun onResponse(
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                    Log.d(TAG, t.toString())
+                    Log.e(TAG, "errorResponse: $t")
                 }
 
             })
