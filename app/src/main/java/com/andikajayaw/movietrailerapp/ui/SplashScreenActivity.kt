@@ -1,9 +1,10 @@
-package com.andikajayaw.movietrailerapp
+package com.andikajayaw.movietrailerapp.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.andikajayaw.movietrailerapp.R
 
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

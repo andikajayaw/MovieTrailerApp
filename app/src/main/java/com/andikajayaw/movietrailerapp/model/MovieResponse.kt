@@ -1,4 +1,6 @@
 package com.andikajayaw.movietrailerapp.model
 
-class MovieResponse {
-}
+data class MovieResponse (
+    val total_pages: Int,
+    val results:List<MovieModel>,
+)
