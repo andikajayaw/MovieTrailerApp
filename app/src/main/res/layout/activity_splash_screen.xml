@@ -8,17 +8,17 @@
     android:background="@color/colorPrimary">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/imageSplash"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/icon_play"
         android:layout_marginBottom="18dp"
-        app:layout_constraintBottom_toTopOf="@id/textTitle"
+        app:layout_constraintBottom_toTopOf="@id/textTitleSplash"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
-        android:id="@+id/textTitle"
+        android:id="@+id/textTitleSplash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/splashScreen"
@@ -31,13 +31,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textSubTitle"
+        android:id="@+id/textSubtitleSplash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textSubTitle"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/textTitle"
+        app:layout_constraintTop_toBottomOf="@id/textTitleSplash"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

@@ -3,11 +3,13 @@ package com.andikajayaw.movietrailerapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.andikajayaw.movietrailerapp.R
+import com.andikajayaw.movietrailerapp.model.Constant
 import com.andikajayaw.movietrailerapp.model.MovieModel
-import kotlinx.android.synthetic.main.adapter_main.view.*
+import com.squareup.picasso.Picasso
 
 class MainAdapter(var movies: ArrayList<MovieModel>): RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
@@ -21,7 +23,11 @@ class MainAdapter(var movies: ArrayList<MovieModel>): RecyclerView.Adapter<MainA
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(movies[position])
+        val movie = movies[position]
+        holder.bind(movie)
+        val imagePoster = holder.imagePoster
+        val posterPath = Constant.POSTER_PATH + movie.poster_path
+        Picasso.get().load(posterPath).placeholder(R.drawable.placeholder_portrait).error(R.drawable.placeholder_portrait).into(imagePoster);
     }
 
     /**
@@ -29,9 +35,10 @@ class MainAdapter(var movies: ArrayList<MovieModel>): RecyclerView.Adapter<MainA
      * (custom ViewHolder).
      */
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-//        val view = view
-        var textTitle: TextView = view.findViewById(R.id.textTitle)
+        var textTitle: TextView = view.findViewById(R.id.textTitleSplash)
+        var imagePoster: ImageView = view.findViewById(R.id.image_poster)
         fun bind(movies: MovieModel) {
+
             textTitle.text = movies.title
         }
     }

@@ -8,16 +8,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.GridLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.andikajayaw.movietrailerapp.R
 import com.andikajayaw.movietrailerapp.adapter.MainAdapter
 import com.andikajayaw.movietrailerapp.databinding.ActivityMainBinding
 import com.andikajayaw.movietrailerapp.model.Constant
 import com.andikajayaw.movietrailerapp.model.MovieResponse
 import com.andikajayaw.movietrailerapp.retrofit.ApiService
-import kotlinx.android.synthetic.main.content_main.*
+//import kotlinx.android.synthetic.main.content_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,7 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
     lateinit var mainAdapter: MainAdapter
 
     companion object {
@@ -65,6 +67,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         mainAdapter = MainAdapter(arrayListOf())
+        recyclerView = findViewById(R.id.recyclerViewMovie)
+        recyclerView.setHasFixedSize(true)
         recyclerView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = mainAdapter
@@ -94,6 +98,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showLoading(loading: Boolean) {
+        progressBar = findViewById(R.id.progressBar)
         when(loading) {
             true -> progressBar.visibility = View.VISIBLE
             false -> progressBar.visibility = View.GONE
