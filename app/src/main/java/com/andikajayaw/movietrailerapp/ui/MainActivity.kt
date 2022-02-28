@@ -7,12 +7,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.GridLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import com.andikajayaw.movietrailerapp.R
+import com.andikajayaw.movietrailerapp.adapter.MainAdapter
 import com.andikajayaw.movietrailerapp.databinding.ActivityMainBinding
 import com.andikajayaw.movietrailerapp.model.Constant
 import com.andikajayaw.movietrailerapp.model.MovieResponse
 import com.andikajayaw.movietrailerapp.retrofit.ApiService
+import kotlinx.android.synthetic.main.content_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +26,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    lateinit var mainAdapter: MainAdapter
 
     companion object {
         private const val TAG: String = "MainActivity"
@@ -34,14 +41,14 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
+        setupView()
+        setupRecyclerView()
+
 //        val navController = findNavController(R.id.nav_host_fragment_content_main)
 //        appBarConfiguration = AppBarConfiguration(navController.graph)
 //        setupActionBarWithNavController(navController, appBarConfiguration)
 //
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+
     }
 
     override fun onStart() {
@@ -49,32 +56,58 @@ class MainActivity : AppCompatActivity() {
         getMovie()
     }
 
+    private fun setupView() {
+        binding.fab.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+    }
+
+    private fun setupRecyclerView() {
+        mainAdapter = MainAdapter(arrayListOf())
+        recyclerView.apply {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = mainAdapter
+        }
+    }
+
     private fun getMovie() {
+        showLoading(true)
         ApiService().endpoint.getMovieNowPlaying(Constant.API_KEY,1)
             .enqueue(object : Callback<MovieResponse>{
                 override fun onResponse(
                     call: Call<MovieResponse>,
                     response: Response<MovieResponse>
                 ) {
+                    showLoading(false)
                     if(response.isSuccessful) {
                         showMovie(response.body()!!)
                     }
                 }
 
                 override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                    showLoading(false)
                     Log.e(TAG, "errorResponse: $t")
                 }
 
             })
     }
 
-    fun showMovie(response: MovieResponse) {
-        Log.d(TAG, "responseMovie: $response")
-        Log.d(TAG, "responseTotalPage: ${response.total_pages}")
-
-        for(movie in response.results) {
-            Log.d(TAG, "title: ${movie.title}")
+    fun showLoading(loading: Boolean) {
+        when(loading) {
+            true -> progressBar.visibility = View.VISIBLE
+            false -> progressBar.visibility = View.GONE
         }
+    }
+
+    fun showMovie(response: MovieResponse) {
+//        Log.d(TAG, "responseMovie: $response")
+//        Log.d(TAG, "responseTotalPage: ${response.total_pages}")
+//
+//        for(movie in response.results) {
+//            Log.d(TAG, "title: ${movie.title}")
+//        }
+        mainAdapter.setData(response.results)
     }
 
     fun showMessage(msg: String) {

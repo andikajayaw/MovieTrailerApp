@@ -3,6 +3,7 @@ package com.andikajayaw.movietrailerapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.andikajayaw.movietrailerapp.R
 import com.andikajayaw.movietrailerapp.model.MovieModel
@@ -28,10 +29,17 @@ class MainAdapter(var movies: ArrayList<MovieModel>): RecyclerView.Adapter<MainA
      * (custom ViewHolder).
      */
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val view = view
+//        val view = view
+        var textTitle: TextView = view.findViewById(R.id.textTitle)
         fun bind(movies: MovieModel) {
-            view.textTitle.text = movies.title
+            textTitle.text = movies.title
         }
+    }
+
+    public fun setData(newMovies: List<MovieModel>) {
+        movies.clear()
+        movies.addAll(newMovies)
+        notifyDataSetChanged()
     }
 
 }
