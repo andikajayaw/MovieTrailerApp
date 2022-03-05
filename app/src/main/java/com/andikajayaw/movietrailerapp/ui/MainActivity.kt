@@ -1,5 +1,6 @@
 package com.andikajayaw.movietrailerapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -58,7 +59,9 @@ class MainActivity : AppCompatActivity() {
         mainAdapter = MainAdapter(arrayListOf(), object : MainAdapter.OnAdapterListener{
             override fun onClick(movie: MovieModel) {
                 super.onClick(movie)
-                showMessage(movie.title!!)
+                Constant.MOVIE_ID = movie.id!!
+                Constant.MOVIE_TITLE = movie.title!!
+                startActivity(Intent(applicationContext,DetailActivity::class.java))
             }
         })
         recyclerView = findViewById(R.id.recyclerViewMovie)
