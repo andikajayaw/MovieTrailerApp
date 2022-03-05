@@ -11,7 +11,7 @@ import com.andikajayaw.movietrailerapp.model.Constant
 import com.andikajayaw.movietrailerapp.model.MovieModel
 import com.squareup.picasso.Picasso
 
-class MainAdapter(var movies: ArrayList<MovieModel>): RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+class MainAdapter(var movies: ArrayList<MovieModel>, var listener: OnAdapterListener): RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
@@ -28,6 +28,9 @@ class MainAdapter(var movies: ArrayList<MovieModel>): RecyclerView.Adapter<MainA
         val imagePoster = holder.imagePoster
         val posterPath = Constant.POSTER_PATH + movie.poster_path
         Picasso.get().load(posterPath).placeholder(R.drawable.placeholder_portrait).error(R.drawable.placeholder_portrait).into(imagePoster);
+        imagePoster.setOnClickListener {
+            listener.onClick(movie)
+        }
     }
 
     /**
@@ -47,6 +50,12 @@ class MainAdapter(var movies: ArrayList<MovieModel>): RecyclerView.Adapter<MainA
         movies.clear()
         movies.addAll(newMovies)
         notifyDataSetChanged()
+    }
+
+    interface OnAdapterListener{
+        fun onClick(movie: MovieModel) {
+
+        }
     }
 
 }

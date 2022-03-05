@@ -16,6 +16,7 @@ import com.andikajayaw.movietrailerapp.R
 import com.andikajayaw.movietrailerapp.adapter.MainAdapter
 import com.andikajayaw.movietrailerapp.databinding.ActivityMainBinding
 import com.andikajayaw.movietrailerapp.model.Constant
+import com.andikajayaw.movietrailerapp.model.MovieModel
 import com.andikajayaw.movietrailerapp.model.MovieResponse
 import com.andikajayaw.movietrailerapp.retrofit.ApiService
 //import kotlinx.android.synthetic.main.content_main.*
@@ -23,13 +24,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+const val moviePopular = 0
+const val movieNowPlaying = 1
+
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     lateinit var mainAdapter: MainAdapter
+    private var movieCategory:Int = 0
+    private val api = ApiService().endpoint
 
     companion object {
         private const val TAG: String = "MainActivity"
@@ -52,7 +57,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        mainAdapter = MainAdapter(arrayListOf())
+        mainAdapter = MainAdapter(arrayListOf(), object : MainAdapter.OnAdapterListener{
+            override fun onClick(movie: MovieModel) {
+                super.onClick(movie)
+                showMessage(movie.title!!)
+            }
+        })
         recyclerView = findViewById(R.id.recyclerViewMovie)
         recyclerView.setHasFixedSize(true)
         recyclerView.apply {
@@ -63,8 +73,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun getMovie() {
         showLoading(true)
-        ApiService().endpoint.getMovieNowPlaying(Constant.API_KEY,1)
-            .enqueue(object : Callback<MovieResponse>{
+
+        var apiCall: Call<MovieResponse>? = null
+
+        when(movieCategory) {
+            moviePopular -> {
+                apiCall = api.getMoviePopular(Constant.API_KEY, 1)
+            }
+            movieNowPlaying -> {
+                apiCall = api.getMovieNowPlaying(Constant.API_KEY, 1)
+            }
+        }
+
+        apiCall!!.enqueue(object : Callback<MovieResponse>{
                 override fun onResponse(
                     call: Call<MovieResponse>,
                     response: Response<MovieResponse>
@@ -117,11 +138,15 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_popular -> {
-                showMessage("Popular Selected")
+                showMessage("Movie Popular Selected")
+                movieCategory = moviePopular
+                getMovie()
                 true
             }
             R.id.action_now_playing -> {
-                showMessage("Now PLaying Selected")
+                showMessage("Movie Now PLaying Selected")
+                movieCategory = movieNowPlaying
+                getMovie()
                 true
             }
             else -> super.onOptionsItemSelected(item)
