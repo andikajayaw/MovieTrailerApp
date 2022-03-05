@@ -2,9 +2,7 @@ package com.andikajayaw.movietrailerapp.ui
 
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.ui.AppBarConfiguration
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,8 +14,8 @@ import com.andikajayaw.movietrailerapp.R
 import com.andikajayaw.movietrailerapp.adapter.MainAdapter
 import com.andikajayaw.movietrailerapp.databinding.ActivityMainBinding
 import com.andikajayaw.movietrailerapp.model.Constant
-import com.andikajayaw.movietrailerapp.model.MovieModel
-import com.andikajayaw.movietrailerapp.model.MovieResponse
+import com.andikajayaw.movietrailerapp.model.movie.MovieModel
+import com.andikajayaw.movietrailerapp.model.movie.MovieResponse
 import com.andikajayaw.movietrailerapp.retrofit.ApiService
 //import kotlinx.android.synthetic.main.content_main.*
 import retrofit2.Call

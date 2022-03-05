@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.andikajayaw.movietrailerapp.R
 import com.andikajayaw.movietrailerapp.model.Constant
-import com.andikajayaw.movietrailerapp.model.MovieModel
+import com.andikajayaw.movietrailerapp.model.movie.MovieModel
 import com.squareup.picasso.Picasso
 
 class MainAdapter(var movies: ArrayList<MovieModel>, var listener: OnAdapterListener): RecyclerView.Adapter<MainAdapter.ViewHolder>() {

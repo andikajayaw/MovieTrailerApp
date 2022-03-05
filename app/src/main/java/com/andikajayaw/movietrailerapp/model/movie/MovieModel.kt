@@ -1,4 +1,4 @@
-package com.andikajayaw.movietrailerapp.model
+package com.andikajayaw.movietrailerapp.model.movie
 
 data class MovieModel (
     val id: Int?,
