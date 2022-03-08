@@ -2,27 +2,24 @@ package com.andikajayaw.movietrailerapp.ui
 
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.andikajayaw.movietrailerapp.R
 import com.andikajayaw.movietrailerapp.databinding.ActivityDetailBinding
 import com.andikajayaw.movietrailerapp.model.Constant
 import com.andikajayaw.movietrailerapp.model.detailmovie.DetailResponse
 import com.andikajayaw.movietrailerapp.retrofit.ApiService
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-//import com.andikajayaw.movietrailerapp.ui.databinding.ActivityDetailBinding
-
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
-
     companion object {
         private const val TAG: String = "DetailActivity"
+        var TITLE_MOVIE: String = ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,17 +28,22 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(findViewById(R.id.toolbar))
-        binding.toolbarLayout.title = title
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+        setupView()
     }
 
     override fun onStart() {
         super.onStart()
         getMovieDetail()
+    }
+
+    private fun setupView() {
+        setSupportActionBar(findViewById(R.id.toolbar))
+        binding.toolbarLayout.title = TITLE_MOVIE
+
+
+        supportActionBar!!.title = "" // set the top title
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
     }
 
     private fun getMovieDetail() {
@@ -64,6 +66,33 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun showMovie(detail: DetailResponse) {
-        Log.d(TAG, "detailResponse: ${detail.overview}")
+//        Log.d(TAG, "detailResponse: ${detail.vote_average.toString()}")
+
+        TITLE_MOVIE = detail.title!!
+
+        val backdropPath = Constant.BACKDROP_PATH + detail.backdrop_path
+        Picasso.get().load(backdropPath)
+            .placeholder(R.drawable.placeholder_landscape)
+            .error(R.drawable.placeholder_landscape)
+            .fit().centerCrop()
+            .into(binding.imageBackdrop)
+
+        val titleDetail: TextView = findViewById(R.id.textTitleDetail)
+        titleDetail.text = detail.title
+        val textVote: TextView = findViewById(R.id.textVoteDetail)
+        textVote.text = detail.vote_average.toString()
+        val textOverview: TextView = findViewById(R.id.textOverview)
+        textOverview.text = detail.overview
+
+        val textGenre: TextView = findViewById(R.id.textGenreDetail)
+
+        for(genre in detail.genres) {
+            textGenre.text = "${genre.name}"
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 }

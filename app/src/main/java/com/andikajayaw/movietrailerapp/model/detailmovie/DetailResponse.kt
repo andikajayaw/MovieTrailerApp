@@ -8,5 +8,5 @@ data class DetailResponse (
     val overview:String?,
     val release_date:String?,
     val genres: List<GenreModel>,
-    val vote_averages: Double?,
+    val vote_average: Double?,
 )
