@@ -1,7 +1,9 @@
 package com.andikajayaw.movietrailerapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.andikajayaw.movietrailerapp.R
@@ -9,6 +11,7 @@ import com.andikajayaw.movietrailerapp.databinding.ActivityDetailBinding
 import com.andikajayaw.movietrailerapp.model.Constant
 import com.andikajayaw.movietrailerapp.model.detailmovie.DetailResponse
 import com.andikajayaw.movietrailerapp.retrofit.ApiService
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,6 +32,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupView()
+        setupListener()
     }
 
     override fun onStart() {
@@ -43,6 +47,13 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar!!.title = "" // set the top title
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+    }
+
+    private fun setupListener() {
+        val fab_play: FloatingActionButton = findViewById(R.id.fabPlay)
+        fab_play.setOnClickListener {
+            startActivity(Intent(applicationContext, TrailerActivity::class.java))
+        }
     }
 
     private fun getMovieDetail() {
