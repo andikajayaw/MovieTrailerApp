@@ -38,7 +38,6 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setupView() {
         setSupportActionBar(findViewById(R.id.toolbar))
-        binding.toolbarLayout.title = TITLE_MOVIE
 
 
         supportActionBar!!.title = "" // set the top title

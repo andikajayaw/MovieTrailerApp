@@ -25,4 +25,10 @@ interface ApiEndPoint {
         @Path("movieId") movieId: Int,
         @Query("api_key") api_key: String
     ): Call<DetailResponse>
+
+    @GET("movie/{movieId}/movies")
+    fun getMovieTrailer(
+        @Path("movieId") movieId: Int,
+        @Query("api_key") api_key: String
+    ): Call<DetailResponse>
 }
